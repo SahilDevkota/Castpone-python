@@ -1,0 +1,9 @@
+pydantic
+Sentence-transformers
+requests
+python-dotenv
+torch
+scikit-learn
+numpy
+fastapi
+matplotlib
