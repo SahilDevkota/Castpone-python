@@ -8,3 +8,4 @@ numpy
 fastapi
 matplotlib
 langchain
+uvicorn
