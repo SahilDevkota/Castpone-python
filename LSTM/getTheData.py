@@ -24,6 +24,7 @@ class DataModel(BaseModel):
 
 
 def grabTheListOfData(list_of_data : list[DataModel]):
+    print(list_of_data)
     list_for_lstm = []
     historical_data = sorted(list_of_data,key=lambda x: x.datetime)
     length = len(list_of_data)

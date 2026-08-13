@@ -10,6 +10,7 @@ LSTMmodel = AssetLSTM()
 LSTMmodel.load_state_dict(torch.load("lstm_stock_model.pth"))
 
 def passTheDataToModel(listOfData):
+    print(listOfData)
     list_of_data_for_lstm = []
     length = len(listOfData)
     sorted_data = sorted(listOfData, key = lambda x : x.datetime)
@@ -65,13 +66,23 @@ def passTheDataToModel(listOfData):
 
     output_length = len(output_scaled_prediction[0])
     output_prediction_array = []
-    prediction = []
 
     p = date.today() + timedelta(days=1)
 
 
+    for i in range(0,output_length,1):
+        
+        output_prediction_array.append({
+            "prediction_date" : date.today().isoformat(),
+            "predicted_for_date" : p.isoformat(),
+            "predicted_price" : float(output_scaled_prediction[0][i])
+        })
 
+        p = p + timedelta(days =1)
+        while p.weekday() == 5 or p.weekday() ==6:
+                p = p + timedelta(days =1)
 
+    return output_prediction_array
 
    
 

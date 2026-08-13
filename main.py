@@ -5,6 +5,7 @@ from LSTM.getTheData import DataModel,grabTheListOfData
 from LSTM.loadModel import passTheDataToModel
 from social_media_sentiment import getComments,youtubeDataDTO,sendSentiment
 from historicalData import getHistoricalData
+from LSTM.AIchatbot import AIrequestModel,getTheData
 from fastapi import FastAPI
 
 
@@ -40,3 +41,7 @@ def getTheHistoricalData(symbol:str):
 @app.post("/getDataforLSTM")
 def getTheDataForLSTM(datalist : list[DataModel]):
     return passTheDataToModel(datalist)
+
+@app.post("/getDataForAI")
+def getTheDataForAI(datalist: AIrequestModel):
+    return getTheData(datalist)
