@@ -9,3 +9,5 @@ fastapi
 matplotlib
 langchain
 google-genai
+uvicorn
+

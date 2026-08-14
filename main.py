@@ -2,7 +2,7 @@
 from market import getMarketResponse,getNews
 from sentiment import sentimentForNews,requestModel
 from LSTM.getTheData import DataModel,grabTheListOfData
-from LSTM.loadModel import passTheDataToModel
+#from LSTM.loadModel import passTheDataToModel
 from social_media_sentiment import getComments,youtubeDataDTO,sendSentiment
 from historicalData import getHistoricalData
 from LSTM.AIchatbot import AIrequestModel,getTheData
@@ -38,9 +38,9 @@ def sendTheSentimentValue(youtubeData : list[youtubeDataDTO]):
 def getTheHistoricalData(symbol:str):
     return getHistoricalData(symbol)
 
-@app.post("/getDataforLSTM")
-def getTheDataForLSTM(datalist : list[DataModel]):
-    return passTheDataToModel(datalist)
+# @app.post("/getDataforLSTM")
+# def getTheDataForLSTM(datalist : list[DataModel]):
+#     return passTheDataToModel(datalist)
 
 @app.post("/getDataForAI")
 def getTheDataForAI(datalist: AIrequestModel):
