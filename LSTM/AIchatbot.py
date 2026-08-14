@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from langchain_groq import ChatGroq
+from google import genai
 from dotenv import load_dotenv
 import os
 
@@ -22,6 +22,7 @@ def getTheData(list_of_data : AIrequestModel):
 
         })
 
+   
 
     batch_size = 20
 
@@ -33,65 +34,40 @@ def getTheData(list_of_data : AIrequestModel):
     batch_result =[]
     
     load_dotenv()
+
+    client = genai.Client(
+            api_key = os.getenv("GEMINI_API_KEY")
+        )
     
-    model_name = "openai/gpt-oss-20b"
-
-    groq_api_key = os.getenv("GROQ_API_KEY")
-
-    groq = ChatGroq(
-        model = model_name,
-        temperature = 0.1,
-        max_tokens = 1024,
-        api_key = groq_api_key
-    )
 
     query = "Should I keep this asset or not?"
 
+    prompt = f"""
+
+    You're a financial expert. You're given sentiment and price prediction list of certain asset. Analyse the given data and give a final investment decision. 
+    Make sure you provide confidientiality score and explain the reason behind the scoring as well. 
+    Make sure you give a proper explanation and don't include any arithmetic calcualtion or 
+    operation. You should provided a clear explanation why the asset needs to kept or not. 
+    Remove the "#" symbols and present it in a professional way. 
+
+    query:
+    {query}
+
+    sentiment : 
+    {sentiment_list}
+
+    prediction_price : 
+    {prediction_price_list}
+
+    Provide a very clear answer. Make sure you don't hallucinate or give any wrong answer. 
     
+    """
 
-    
-    
-
-    for batch in sentiment_batches:
-        prompt = f"""
-                
-                You are a professional financial analyst.You're given a sentiment batch. Carefully analyse the batch and explain what the sentiment score suggest.
-
-                Give a concise summary that can be used for the final analysis. Don't give any arithmetic operations or calculations. Don't show any calculation steps. And mainly, don't make any final investment decision.
-
-                batch: {batch}
-        
-                Provide a very clear answer. Make sure you don't hallucinate or give any wrong answer. 
-                """
-
-        response = groq.invoke(prompt)
-
-        batch_result.append(response)
+    final_response = client.models.generate_content(
+            model = "gemini-3.6-flash",
+            contents = prompt
+        )
+    return final_response.text
 
 
-    groq2 = ChatGroq(
-        model = model_name,
-        temperature = 0.1,
-        max_tokens = 1024,
-        api_key = groq_api_key
-
-    )
-
-    final_prompt = f"""
-        You are a professional financial analyst. Analyse the financial batch list and make a final investment decision based 
-        on the data batches provied. Make sure you give a proper explanation and don't include any arithmetic calcualtion or 
-        operaion. You should provided a clear explanation why the asset needs to kept or not. 
-
-        Also, provide the confidentiality score with a solid reasoning. Make sure what does the confidentiality means for example good, bad or neutral. 
-
-        batch: 
-        {batch_result}
-
-        Provide a very clear answer. Make sure you don't hallucinate or give any wrong answer. 
-
-        
-        """ 
-
-    final_response = groq2.invoke(final_prompt)
-    return final_response.content
-        
+   
