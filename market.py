@@ -22,6 +22,30 @@ def getMarketResponse(symbol):
         response_json = response.json()
 
         return response_json["values"]
+
+def getNewsList():
+
+        all_articles=[]
+        
+        response = requests.get("https://finnhub.io/api/v1/company-news",params = {
+                "category": "general",
+                "token": API_KEY_1
+        })
+        articles = response.json()
+        print(articles)
+        # for article in articles:
+        #         timestamp = article["datetime"]
+        #         date = datetime.fromtimestamp(timestamp).date()
+        #         all_articles.append({
+        #                 "headline": article["headline"],
+        #                 "summary" : article["summary"],
+        #                 "date" : date,
+        #                 "url" : article["url"],
+        #                 "source" : article["source"]
+        #         })
+
+        # print(all_articles)
+        # return all_articles
         
 def getNews(symbol):
 
