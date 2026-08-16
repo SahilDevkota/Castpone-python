@@ -1,5 +1,5 @@
 pydantic
-Sentence-transformers
+sentence-transformers
 requests
 python-dotenv
 torch
@@ -10,4 +10,3 @@ matplotlib
 langchain
 google-genai
 uvicorn
-
