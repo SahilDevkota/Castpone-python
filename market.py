@@ -53,8 +53,8 @@ def getNews(symbol):
         
         response = requests.get("https://finnhub.io/api/v1/company-news",params = {
                 "symbol" : symbol,
-                "from" : "2025-02-18",
-                "to" : "2026-07-25",
+                "from" : "2025-08-01",
+                "to" : "2026-08-17",
                 "token": API_KEY_1
         })
         articles = response.json()
